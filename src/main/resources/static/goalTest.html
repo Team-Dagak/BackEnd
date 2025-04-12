@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Goal 테스트</title>
+</head>
+<body>
+<h2>🎯 목표 등록</h2>
+<form id="goalForm">
+  <label>Goal 이름: <input type="text" id="goalname" /></label><br />
+  <label>Delayed: <input type="checkbox" id="delayedGoal" /></label><br />
+  <label>시작일: <input type="date" id="startdate" /></label><br />
+  <label>마감일: <input type="date" id="deadline" /></label><br />
+  <label>Pinned: <input type="checkbox" id="pinned" /></label><br />
+  <button type="submit">등록하기</button>
+</form>
+
+<hr />
+
+<h2>📋 내 목표 목록</h2>
+<button onclick="fetchGoals()">불러오기</button>
+<ul id="goalList"></ul>
+
+<script>
+  document.getElementById("goalForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const payload = {
+      goalname: document.getElementById("goalname").value,
+      delayedGoal: document.getElementById("delayedGoal").checked,
+      startdate: document.getElementById("startdate").value,
+      deadline: document.getElementById("deadline").value,
+      pinned: document.getElementById("pinned").checked
+    };
+
+    const res = await fetch("/api/goals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload),
+      credentials: "include" // ✅ 쿠키 포함!
+    });
+
+    if (!res.ok) {
+      alert("등록 실패: " + res.status);
+      return;
+    }
+
+    const result = await res.json();
+    alert("등록 완료: " + JSON.stringify(result));
+  });
+
+  async function fetchGoals() {
+    const res = await fetch("/api/goals", {
+      method: "GET",
+      credentials: "include" // ✅ 쿠키 포함!
+    });
+
+    if (!res.ok) {
+      alert("목표 불러오기 실패: " + res.status);
+      return;
+    }
+
+    const goals = await res.json();
+    const list = document.getElementById("goalList");
+    list.innerHTML = "";
+    goals.forEach(goal => {
+      const item = document.createElement("li");
+      item.textContent = `${goal.goalname} - ${goal.startdate} ~ ${goal.deadline}`;
+      list.appendChild(item);
+    });
+  }
+</script>
+</body>
+</html>
