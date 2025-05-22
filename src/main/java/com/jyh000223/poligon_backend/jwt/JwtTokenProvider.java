@@ -58,6 +58,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
     }
 
+
     public String getSocialId(String token) {
         return (String) Jwts.parserBuilder()
                 .setSigningKey(secretKey)

@@ -22,6 +22,7 @@ public class Checklist {
     private int goalId;  // 필드명을 카멜케이스로!
     @Column(name = "social_id", nullable = false)
     private String socialId;
+
     @Column(name="clear")
     private boolean clear;
 }

@@ -44,6 +44,7 @@ public class GoalController {
         return ResponseEntity.ok(goalRepository.save(goal));
     }
 
+
     // 목표 조회
     @GetMapping
     public ResponseEntity<List<Goal>> getGoals(HttpServletRequest request) {

@@ -19,7 +19,6 @@ public class Goal {
     @Column(name = "goal_id")
     private Long goalId;
 
-
     @Column(name = "goalname")
     private String goalname;
 

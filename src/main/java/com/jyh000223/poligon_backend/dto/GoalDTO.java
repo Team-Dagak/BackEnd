@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GoalDTO{
+
     private String goalname;
     private Boolean delayedGoal;
     private LocalDate startdate;

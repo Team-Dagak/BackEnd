@@ -91,6 +91,7 @@ public class ChecklistsController {
     }
 
 
+
     // JWT에서 socialId 추출 메서드
     private String getSocialIdFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {

@@ -35,6 +35,7 @@ public class UserController {
         User user = userRepository.findBySocialIdAndProvider(socialId, provider)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
 
+
         // 3. 리턴
         return ResponseEntity.ok(new UserResponseDto(
                 user.getEmail(),

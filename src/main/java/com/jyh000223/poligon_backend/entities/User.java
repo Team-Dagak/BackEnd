@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "pph_user") // 선택
 public class User {
 
+
     @Id
     @GeneratedValue
     @Column(name="id")
