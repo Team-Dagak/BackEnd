@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/DagakDagak:latest .
+        run: docker build -t ${{ secrets.DOCKER_USER }}/dagakdagak:latest .
 
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
