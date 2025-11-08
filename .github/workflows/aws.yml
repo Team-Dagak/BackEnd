@@ -25,13 +25,13 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/dagakdagak:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/dagakdagak:latest .
 
       - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push image to DockerHub
-        run: docker push ${{ secrets.DOCKER_USER }}/DagakDagak:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/DagakDagak:latest
 
       - name: 🚀 Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
