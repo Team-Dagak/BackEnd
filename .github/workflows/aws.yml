@@ -7,8 +7,26 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
+      - name: Get Github Actions IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v5.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET }}
+          aws-region: ap-northeast-2
+
+      - name: Add Github ACtions IP to Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+          --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+          --protocol tcp --port 22 \
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
+    
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -33,7 +51,7 @@ jobs:
       - name: Push image to DockerHub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/dagakdagak:latest
 
-      - name: 🚀 Deploy on EC2
+      - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST_IP }}
@@ -49,3 +67,11 @@ jobs:
               -e TZ=Asia/Seoul \
               -p 8080:8080 \
               ${{ secrets.DOCKER_USER }}/dagakdagak:latest
+
+      - name: Remove Github Actions IP from Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress \
+          --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
