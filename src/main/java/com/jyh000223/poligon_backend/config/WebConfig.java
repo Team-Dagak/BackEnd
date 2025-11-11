@@ -9,11 +9,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // React dev server 도메인
-                .allowedOrigins("http://localhost:5173")
+                .allowedOrigins("https://localhost:5173", "https://jyhdevstore.store")
+                .allowCredentials(true) // 인증(쿠키 등) 허용
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                .allowCredentials(true)
                 .maxAge(3600);         // preflight 요청 캐시 시간(초)
     }
 }

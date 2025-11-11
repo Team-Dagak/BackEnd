@@ -6,6 +6,7 @@ import com.jyh000223.poligon_backend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -73,14 +74,18 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         // 👉 JWT 생성 및 쿠키 저장
         String jwt = jwtTokenProvider.generateToken(user.getEmail(), user.getProvider(), user.getSocialId());
 
-        Cookie cookie = new Cookie("access_token", jwt);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(cookie);
+// 기존 코드 대체
+        ResponseCookie cookie = ResponseCookie.from("access_token", jwt)
+                .httpOnly(true)
+                .secure(true) // HTTPS 환경이면 true, 개발 환경에서 false도 가능
+                .sameSite("None") // 크로스도메인 필수
+                .path("/")
+                .maxAge(60 * 60 * 24)
+                .build();
 
-        // 👉 리다이렉트
-        response.sendRedirect("/login/success");
+        response.setHeader("Set-Cookie", cookie.toString());
+        response.sendRedirect("https://localhost:5173/Frontend/");
+
     }
 
 }

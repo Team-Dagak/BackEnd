@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-
+/*
 @RestController
 public class LoginSuccessController {
     @GetMapping("/login/success")
@@ -13,3 +13,4 @@ public class LoginSuccessController {
 
     }
 }
+*/

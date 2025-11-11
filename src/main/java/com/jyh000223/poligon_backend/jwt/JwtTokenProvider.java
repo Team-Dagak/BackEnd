@@ -41,6 +41,7 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+            System.err.println("JWT 인증 예외: " + e.getMessage()); // 또는 log.error
             return false;
         }
     }
