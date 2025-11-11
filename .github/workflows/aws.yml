@@ -63,9 +63,9 @@ jobs:
             docker rm dagakdagak || true
             docker run -d \
               --name dagakdagak \
-              --env-file /home/ubuntu/.env \
+              --restart unless-stopped \
               -e TZ=Asia/Seoul \
-              -p 8080:8080 \
+              -p 127.0.0.1:8080:8080 \
               ${{ secrets.DOCKER_USERNAME }}/dagakdagak:latest
 
       - name: Remove Github Actions IP from Security Group
