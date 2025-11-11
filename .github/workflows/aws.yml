@@ -31,7 +31,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push image to DockerHub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/DagakDagak:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/dagakdagak:latest
 
       - name: 🚀 Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USER }}/DagakDagak:latest
+            docker pull ${{ secrets.DOCKER_USER }}/dagakdagak:latest
             docker stop dagakdagak || true
             docker rm dagakdagak || true
             docker run -d \
@@ -48,4 +48,4 @@ jobs:
               --env-file /home/ubuntu/.env \
               -e TZ=Asia/Seoul \
               -p 8080:8080 \
-              ${{ secrets.DOCKER_USER }}/DagakDagak:latest
+              ${{ secrets.DOCKER_USER }}/dagakdagak:latest
