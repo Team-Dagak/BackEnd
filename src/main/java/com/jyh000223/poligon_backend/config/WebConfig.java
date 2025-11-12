@@ -16,3 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3600);         // preflight 요청 캐시 시간(초)
     }
 }
+
+
+
