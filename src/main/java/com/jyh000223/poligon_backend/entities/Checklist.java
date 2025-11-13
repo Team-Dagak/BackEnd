@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "pph_checklist")
 @Getter
@@ -25,4 +27,8 @@ public class Checklist {
 
     @Column(name="clear")
     private boolean clear;
+
+    //calendar에서의 관리용
+    @Column(name = "check_date", nullable = false)
+    private LocalDate checkDate;
 }

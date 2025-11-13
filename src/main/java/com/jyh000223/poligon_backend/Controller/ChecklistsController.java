@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.Cookie;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,13 +46,15 @@ public class ChecklistsController {
     public ResponseEntity<Checklist> addChecklist(
             @RequestBody ChecklistDTO dto,
             HttpServletRequest request) {
-        String socialId = String.valueOf(getSocialIdFromCookie(request));
+
+        String socialId = getSocialIdFromCookie(request);
 
         Checklist checkList = new Checklist();
         checkList.setChecklistName(dto.checklistName());
-        checkList.setGoalId(dto.goalId());
+        checkList.setGoalId(dto.goalId()); // ⭐ null이면 일반 To-Do
         checkList.setClear(dto.clear() != null ? dto.clear() : false);
         checkList.setSocialId(socialId);
+        checkList.setCheckDate(dto.checkDate() != null ? dto.checkDate() : LocalDate.now()); // ⭐ 날짜 지정
 
         Checklist saved = checklistRepository.save(checkList);
         return ResponseEntity.ok(saved);

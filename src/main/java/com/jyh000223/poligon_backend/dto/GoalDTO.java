@@ -2,6 +2,7 @@ package com.jyh000223.poligon_backend.dto;
 
 import lombok.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +15,6 @@ public class GoalDTO{
     private LocalDate startdate;
     private LocalDate deadline;
     private Boolean pinned;
+    private List<ChecklistDTO> checklists;
 }
 
