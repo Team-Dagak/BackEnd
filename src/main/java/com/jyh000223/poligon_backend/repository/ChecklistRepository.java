@@ -17,5 +17,5 @@ public interface ChecklistRepository extends JpaRepository<Checklist, Integer> {
 
     List<Checklist> findBySocialIdAndCheckDateBetween(String socialId, LocalDate start, LocalDate end);
 
-    List<Checklist> findBySocialIdandCheckDate(String socialId, LocalDate date);
+    List<Checklist> findBySocialIdAndCheckDate(String socialId, LocalDate checkDate);
 }

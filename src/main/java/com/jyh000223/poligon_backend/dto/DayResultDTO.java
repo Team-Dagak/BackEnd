@@ -11,6 +11,6 @@ import java.util.List;
 public class DayResultDTO {
     private int cleared;
     private int total;
-    private List<Integer> clearedGoals = new ArrayList<>();
-    private List<Integer> pendingGoals = new ArrayList<>();
+    private List<Long> clearedGoals = new ArrayList<>();
+    private List<Long> pendingGoals = new ArrayList<>();
 }

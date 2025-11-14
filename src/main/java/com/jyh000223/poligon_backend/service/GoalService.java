@@ -46,7 +46,7 @@ public class GoalService {
 
         // 1) 해당 날짜에 생성된 checklist들 조회
         List<Checklist> dailyList =
-                checklistRepository.findBySocialIdandCheckDate(socialId, date);
+                checklistRepository.findBySocialIdAndCheckDate(socialId, date);
 
         // 2) goalId 기준으로 그룹핑
         Map<Long, DailyGoalDTO> map = new HashMap<>();
