@@ -27,7 +27,7 @@ public class ChecklistsController {
     // 유저의 특정 goal 하위 checklist 전체 조회
     @GetMapping("/goal/{goalId}")
     public ResponseEntity<List<Checklist>> getChecklistsByGoal(
-            @PathVariable int goalId,
+            @PathVariable Long goalId,
             HttpServletRequest request) {
         String socialId = String.valueOf(getSocialIdFromCookie(request));
         List<Checklist> checklists = checklistRepository.findByGoalIdAndSocialId(goalId, socialId);

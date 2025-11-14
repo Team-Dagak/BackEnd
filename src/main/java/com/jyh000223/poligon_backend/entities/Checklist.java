@@ -21,7 +21,7 @@ public class Checklist {
     @Column(name = "checklist_name")
     private String checklistName;
     @Column(name = "goal_id")
-    private int goalId;  // 필드명을 카멜케이스로!
+    private Long goalId;  // 필드명을 카멜케이스로!
     @Column(name = "social_id", nullable = false)
     private String socialId;
 

@@ -11,9 +11,11 @@ import java.util.Optional;
 public interface ChecklistRepository extends JpaRepository<Checklist, Integer> {
     List<Checklist> findBySocialId(String social_id);
 
-    List<Checklist> findByGoalIdAndSocialId(int goal_id, String social_id);
+    List<Checklist> findByGoalIdAndSocialId(Long goal_id, String social_id);
 
     Optional<Checklist> findByChecklistIdAndSocialId(int checklistId, String  social_id);
 
     List<Checklist> findBySocialIdAndCheckDateBetween(String socialId, LocalDate start, LocalDate end);
+
+    List<Checklist> findBySocialIdandCheckDate(String socialId, LocalDate date);
 }

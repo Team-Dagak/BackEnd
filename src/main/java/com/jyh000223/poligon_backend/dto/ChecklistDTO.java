@@ -7,7 +7,7 @@ public record ChecklistDTO(
 
         Integer checklistId,     // 수정/삭제 시 필요
         String checklistName,
-        Integer goalId,
+        Long goalId,
         Boolean clear,
         LocalDate checkDate
 ) {}

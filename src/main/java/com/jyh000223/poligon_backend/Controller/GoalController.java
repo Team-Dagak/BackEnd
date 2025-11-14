@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -71,7 +72,20 @@ public class GoalController {
 
         return ResponseEntity.ok(goalRepository.findBySocialId(socialId));
     }
+    @GetMapping("/daily/{date}")
+    public ResponseEntity<?> getDailyGoals(
+            @PathVariable String date,
+            HttpServletRequest request
+    ) {
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
+        LocalDate targetDate = LocalDate.parse(date);
+
+        return ResponseEntity.ok(
+                goalService.getDailyGoals(socialId, targetDate)
+        );
+    }
     @PostMapping("/{goalId}/reflection")
     public ResponseEntity<?> createReflection(
             @PathVariable Long goalId,
