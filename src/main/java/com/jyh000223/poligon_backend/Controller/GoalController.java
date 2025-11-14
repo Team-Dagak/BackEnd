@@ -48,7 +48,8 @@ public class GoalController {
                 dto.getStartdate(),
                 dto.getDeadline(),
                 dto.getPinned(),
-                socialId
+                socialId,
+                dto.getHasReflection()
         );
 
         Goal savedGoal = goalRepository.save(goal);
@@ -69,17 +70,6 @@ public class GoalController {
         String socialId = jwtTokenProvider.getSocialId(token);
 
         return ResponseEntity.ok(goalRepository.findBySocialId(socialId));
-    }
-
-    private String extractTokenFromCookie(HttpServletRequest request) {
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if ("access_token".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        throw new RuntimeException("쿠키에 access_token이 없습니다");
     }
 
     @PostMapping("/{goalId}/reflection")
@@ -106,5 +96,15 @@ public class GoalController {
         return ResponseEntity.ok("saved");
     }
 
+    private String extractTokenFromCookie(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("access_token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        throw new RuntimeException("쿠키에 access_token이 없습니다");
+    }
 }
 

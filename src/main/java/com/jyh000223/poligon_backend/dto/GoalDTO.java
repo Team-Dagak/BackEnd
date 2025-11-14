@@ -16,5 +16,6 @@ public class GoalDTO{
     private LocalDate deadline;
     private Boolean pinned;
     private List<ChecklistDTO> checklists;
+    private Boolean hasReflection;
 }
 

@@ -36,4 +36,7 @@ public class Goal {
 
     @Column(name = "social_id", nullable = false)
     private String socialId;
+
+    @Column(name = "has_reflection", nullable = false)
+    private boolean hasReflection = false;
 }
