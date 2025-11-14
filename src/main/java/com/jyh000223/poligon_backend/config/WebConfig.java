@@ -9,13 +9,17 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://localhost:5173", "https://jyhdevstore.store")
-                .allowCredentials(true) // 인증(쿠키 등) 허용
+                .allowedOrigins(
+                        "http://localhost:5173",
+                        "https://localhost:5173",
+                        "http://jyhdevstore.store",
+                        "https://jyhdevstore.store"
+                )
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                .maxAge(3600);         // preflight 요청 캐시 시간(초)
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
-
 
 
