@@ -1,5 +1,6 @@
 package com.jyh000223.poligon_backend.entities;
 
+import com.jyh000223.poligon_backend.enums.GoalCategory;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -39,4 +40,8 @@ public class Goal {
 
     @Column(name = "has_reflection", nullable = false)
     private boolean hasReflection = false;
+
+    @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GoalCategory category;
 }

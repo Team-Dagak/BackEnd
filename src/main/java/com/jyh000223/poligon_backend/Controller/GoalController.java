@@ -5,6 +5,7 @@ import com.jyh000223.poligon_backend.dto.GoalReflectionRequestDTO;
 import com.jyh000223.poligon_backend.dto.ReflectionType;
 import com.jyh000223.poligon_backend.entities.Goal;
 import com.jyh000223.poligon_backend.entities.GoalReflection;
+import com.jyh000223.poligon_backend.enums.GoalCategory;
 import com.jyh000223.poligon_backend.jwt.JwtTokenProvider;
 import com.jyh000223.poligon_backend.repository.GoalReflectionRepository;
 import com.jyh000223.poligon_backend.repository.GoalRepository;
@@ -50,7 +51,8 @@ public class GoalController {
                 dto.getDeadline(),
                 dto.getPinned(),
                 socialId,
-                dto.getHasReflection()
+                dto.getHasReflection(),
+                dto.getGoalCategory()
         );
 
         Goal savedGoal = goalRepository.save(goal);
@@ -108,6 +110,21 @@ public class GoalController {
         reflectionRepository.save(reflection);
 
         return ResponseEntity.ok("saved");
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<?> getGoalsByCategory(
+            @RequestParam String value,
+            HttpServletRequest request
+    ) {
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
+
+        // 문자열("#공부 루틴") → Enum 변환
+        GoalCategory category = GoalCategory.fromLabel(value);
+
+        List<Goal> goals = goalRepository.findBySocialIdAndCategory(socialId, category);
+        return ResponseEntity.ok(goals);
     }
 
     private String extractTokenFromCookie(HttpServletRequest request) {

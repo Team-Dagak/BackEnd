@@ -1,5 +1,6 @@
 package com.jyh000223.poligon_backend.dto;
 
+import com.jyh000223.poligon_backend.enums.GoalCategory;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,5 +18,6 @@ public class GoalDTO{
     private Boolean pinned;
     private List<ChecklistDTO> checklists;
     private Boolean hasReflection;
+    private GoalCategory goalCategory;
 }
 
