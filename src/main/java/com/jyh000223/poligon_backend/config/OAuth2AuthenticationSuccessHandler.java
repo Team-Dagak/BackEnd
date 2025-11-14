@@ -84,7 +84,7 @@
                     .build();
 
             response.setHeader("Set-Cookie", cookie.toString());
-            response.sendRedirect("https://jyhdevstore.store/Frontend/");
+            response.sendRedirect("https://localhost:5173/Frontend/");
 
         }
 
