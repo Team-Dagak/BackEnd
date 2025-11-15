@@ -144,7 +144,8 @@ public class GoalController {
 
     @GetMapping("/reflected")
     public ResponseEntity<?> getReflectedGoals(HttpServletRequest request) {
-        String socialId = extractTokenFromCookie(request);
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
         return ResponseEntity.ok(
                 goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionTrue(socialId)
