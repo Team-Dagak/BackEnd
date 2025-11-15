@@ -44,4 +44,7 @@ public class Goal {
     @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
     private GoalCategory category;
+
+    @Column(name="finished",nullable = false)
+    private Boolean finished;
 }

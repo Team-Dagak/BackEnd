@@ -9,4 +9,11 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findBySocialId(String socialId);
 
     List<Goal> findBySocialIdAndCategory(String socialId, GoalCategory category);
+
+    List<Goal> findBySocialIdAndFinished(String socialId, boolean finished);
+
+    List<Goal> findBySocialIdAndFinishedTrueAndHasReflectionFalse(String socialId);
+
+    List<Goal> findBySocialIdAndFinishedTrueAndHasReflectionTrue(String socialId);
+
 }

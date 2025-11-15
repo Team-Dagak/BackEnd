@@ -19,5 +19,6 @@ public class GoalDTO{
     private List<ChecklistDTO> checklists;
     private Boolean hasReflection;
     private GoalCategory goalCategory;
+    private Boolean finished;
 }
 

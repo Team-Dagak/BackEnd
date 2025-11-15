@@ -52,7 +52,8 @@ public class GoalController {
                 dto.getPinned(),
                 socialId,
                 dto.getHasReflection(),
-                dto.getGoalCategory()
+                dto.getGoalCategory(),
+                dto.getFinished()
         );
 
         Goal savedGoal = goalRepository.save(goal);
@@ -97,8 +98,10 @@ public class GoalController {
         String token = extractTokenFromCookie(request);
         String socialId = jwtTokenProvider.getSocialId(token);
 
-        ReflectionType type = ReflectionType.fromLabel(dto.reflectionType());  // ⭐ 한국어 → ENUM 변환
+        // 1) 한국어 레이블 → ENUM 변환
+        ReflectionType type = ReflectionType.fromLabel(dto.reflectionType());
 
+        // 2) 엔티티 생성 및 저장
         GoalReflection reflection = new GoalReflection(
                 null,
                 goalId,
@@ -109,8 +112,46 @@ public class GoalController {
 
         reflectionRepository.save(reflection);
 
+        // ⭐ 3) Goal 업데이트 (finished = true, hasReflection = true)
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("Goal not found"));
+
+        goal.setFinished(true);
+        goal.setHasReflection(true);
+
+        goalRepository.save(goal);
+
         return ResponseEntity.ok("saved");
     }
+
+    @GetMapping("/unfinished")
+    public ResponseEntity<?> getUnfinishedGoals(HttpServletRequest request) {
+        String socialId = extractTokenFromCookie(request);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinished(socialId, false)
+        );
+    }
+
+    @GetMapping("/need-reflection")
+    public ResponseEntity<?> getGoalsNeedingReflection(HttpServletRequest request) {
+        String socialId = extractTokenFromCookie(request);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionFalse(socialId)
+        );
+    }
+
+    @GetMapping("/reflected")
+    public ResponseEntity<?> getReflectedGoals(HttpServletRequest request) {
+        String socialId = extractTokenFromCookie(request);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionTrue(socialId)
+        );
+    }
+
+
 
     @GetMapping("/category")
     public ResponseEntity<?> getGoalsByCategory(
@@ -126,6 +167,7 @@ public class GoalController {
         List<Goal> goals = goalRepository.findBySocialIdAndCategory(socialId, category);
         return ResponseEntity.ok(goals);
     }
+
 
     private String extractTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {
