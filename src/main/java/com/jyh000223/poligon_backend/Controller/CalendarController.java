@@ -29,9 +29,10 @@ public class CalendarController {
         }
 
         // ⭐ 2. JWT 유효성 체크
+        /*
         if (!jwtTokenProvider.validateToken(token)) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
-        }
+        }*/
 
         // ⭐ 3. JWT에서 socialId 추출
         String socialId = jwtTokenProvider.getSocialId(token);
