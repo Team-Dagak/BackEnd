@@ -5,6 +5,7 @@ import com.jyh000223.poligon_backend.dto.GoalReflectionRequestDTO;
 import com.jyh000223.poligon_backend.dto.ReflectionType;
 import com.jyh000223.poligon_backend.entities.Goal;
 import com.jyh000223.poligon_backend.entities.GoalReflection;
+import com.jyh000223.poligon_backend.enums.CharacterType;
 import com.jyh000223.poligon_backend.enums.GoalCategory;
 import com.jyh000223.poligon_backend.jwt.JwtTokenProvider;
 import com.jyh000223.poligon_backend.repository.GoalReflectionRepository;
@@ -35,14 +36,14 @@ public class GoalController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createGoal(@RequestBody GoalDTO dto,
-                                        HttpServletRequest request) {
+    public ResponseEntity<?> createGoal(
+            @RequestBody GoalDTO dto,
+            HttpServletRequest request
+    ) {
 
-        // 1) socialId
         String token = extractTokenFromCookie(request);
         String socialId = jwtTokenProvider.getSocialId(token);
 
-        // 2) Goal 저장
         Goal goal = new Goal(
                 null,
                 dto.getGoalname(),
@@ -53,13 +54,12 @@ public class GoalController {
                 socialId,
                 dto.getHasReflection(),
                 dto.getGoalCategory(),
-                dto.getFinished()
+                dto.getFinished(),
+                dto.getColorCode(),
+                CharacterType.fromLabel(dto.getCharacterType())
         );
 
         Goal savedGoal = goalRepository.save(goal);
-
-        // ⭐ 3) 프론트에서 받은 checklist 이름을 goalService로 전달
-        goalService.createDailyChecklists(savedGoal, dto.getChecklists(), socialId);
 
         return ResponseEntity.ok(savedGoal);
     }

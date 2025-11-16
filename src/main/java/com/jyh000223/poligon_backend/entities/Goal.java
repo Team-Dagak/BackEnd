@@ -1,5 +1,6 @@
 package com.jyh000223.poligon_backend.entities;
 
+import com.jyh000223.poligon_backend.enums.CharacterType;
 import com.jyh000223.poligon_backend.enums.GoalCategory;
 import jakarta.persistence.*;
 
@@ -47,4 +48,11 @@ public class Goal {
 
     @Column(name="finished",nullable = false)
     private Boolean finished;
+
+    @Column(name = "color_code", length = 10)
+    private String colorCode;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "character_type", length = 20)
+    private CharacterType characterType;
 }

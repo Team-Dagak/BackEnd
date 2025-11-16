@@ -16,9 +16,10 @@ public class GoalDTO{
     private LocalDate startdate;
     private LocalDate deadline;
     private Boolean pinned;
-    private List<ChecklistDTO> checklists;
     private Boolean hasReflection;
     private GoalCategory goalCategory;
     private Boolean finished;
+    private String colorCode;
+    private String characterType;
 }
 

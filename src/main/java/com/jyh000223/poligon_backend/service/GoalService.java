@@ -20,27 +20,7 @@ import java.util.Map;
 public class GoalService {
     private final ChecklistRepository checklistRepository;
 
-    public void createDailyChecklists(Goal goal,
-                                      List<ChecklistDTO> templates,
-                                      String socialId) {
 
-        LocalDate start = goal.getStartdate();
-        LocalDate end = goal.getDeadline();
-
-        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-            for (ChecklistDTO t : templates) {
-
-                Checklist checklist = new Checklist();
-                checklist.setGoalId(goal.getGoalId());
-                checklist.setChecklistName(t.checklistName());
-                checklist.setSocialId(socialId);
-                checklist.setCheckDate(date);  // ⭐ 날짜별 Daily
-                checklist.setClear(false);
-
-                checklistRepository.save(checklist);
-            }
-        }
-    }
 
     public DailyGoalsDTO getDailyGoals(String socialId, LocalDate date) {
 

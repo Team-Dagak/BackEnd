@@ -2,9 +2,14 @@ package com.jyh000223.poligon_backend.Controller;
 
 import com.jyh000223.poligon_backend.dto.ChecklistDTO;
 import com.jyh000223.poligon_backend.entities.Checklist;
+import com.jyh000223.poligon_backend.entities.Goal;
 import com.jyh000223.poligon_backend.jwt.JwtTokenProvider;
 import com.jyh000223.poligon_backend.repository.ChecklistRepository;
+import com.jyh000223.poligon_backend.repository.GoalRepository;
+import com.jyh000223.poligon_backend.service.CheckListService;
+import com.jyh000223.poligon_backend.service.GoalService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.Cookie;
@@ -14,15 +19,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Checklists")
+@RequiredArgsConstructor
 public class ChecklistsController {
     private final ChecklistRepository checklistRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
-    public ChecklistsController(ChecklistRepository checklistRepository,
-                                JwtTokenProvider jwtTokenProvider) {
-        this.checklistRepository = checklistRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final CheckListService checkListService;
+    private final GoalRepository goalRepository;
 
     // 유저의 특정 goal 하위 checklist 전체 조회
     @GetMapping("/goal/{goalId}")
@@ -95,6 +97,23 @@ public class ChecklistsController {
     }
 
 
+    @PostMapping("/generate/{goalId}")
+    public ResponseEntity<?> generateDailyChecklists(
+            @PathVariable Long goalId,
+            @RequestBody List<ChecklistDTO> templates,
+            HttpServletRequest request
+    ) {
+        String token = getSocialIdFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
+
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("Goal not found"));
+
+        // ⭐ 기존 createDailyChecklists 재활용
+        checkListService.createDailyChecklists(goal, templates, socialId);
+
+        return ResponseEntity.ok("Daily checklists generated");
+    }
 
     // JWT에서 socialId 추출 메서드
     private String getSocialIdFromCookie(HttpServletRequest request) {
