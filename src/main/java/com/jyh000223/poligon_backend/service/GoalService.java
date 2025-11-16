@@ -6,6 +6,7 @@ import com.jyh000223.poligon_backend.dto.DailyGoalsDTO;
 import com.jyh000223.poligon_backend.entities.Checklist;
 import com.jyh000223.poligon_backend.entities.Goal;
 import com.jyh000223.poligon_backend.repository.ChecklistRepository;
+import com.jyh000223.poligon_backend.repository.GoalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GoalService {
     private final ChecklistRepository checklistRepository;
-
+    private final GoalRepository goalRepository;
 
 
     public DailyGoalsDTO getDailyGoals(String socialId, LocalDate date) {
@@ -53,6 +54,21 @@ public class GoalService {
         }
 
         return new DailyGoalsDTO(date, map.values());
+    }
+
+    public void updateDelayedStatus(Long goalId, String socialId) {
+
+        // 해당 goal의 모든 checklist 조회
+        List<Checklist> todos = checklistRepository.findByGoalIdAndSocialId(goalId, socialId);
+
+        boolean hasDelayed = todos.stream()
+                .anyMatch(c -> !c.isClear() && c.getCheckDate().isBefore(LocalDate.now()));
+
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("Goal not found"));
+
+        goal.setDelayedGoal(hasDelayed);
+        goalRepository.save(goal);
     }
 
 }

@@ -180,6 +180,18 @@ public class GoalController {
         );
     }
 
+    @PostMapping("/{goalId}/update-delayed")
+    public ResponseEntity<?> updateDelayedGoal(
+            @PathVariable Long goalId,
+            HttpServletRequest request
+    ) {
+        String socialId = extractTokenFromCookie(request);
+
+        goalService.updateDelayedStatus(goalId, socialId);
+
+        return ResponseEntity.ok("Delayed status updated");
+    }
+
     private String extractTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
