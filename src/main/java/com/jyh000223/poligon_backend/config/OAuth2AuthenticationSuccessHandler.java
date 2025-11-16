@@ -84,8 +84,8 @@
                     .build();
 
             response.setHeader("Set-Cookie", cookie.toString());
-            //response.sendRedirect("https://www.team-mole.shop/");
-            response.sendRedirect("https://localhost:5173/FrontEnd/");
+            response.sendRedirect("https://www.team-mole.shop/"); //배포
+            //response.sendRedirect("https://localhost:5173/FrontEnd/"); //로컬 테스팅
         }
 
     }
