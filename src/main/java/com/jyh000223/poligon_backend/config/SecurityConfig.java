@@ -77,6 +77,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("https://localhost:5173");
         configuration.addAllowedOrigin("http://jyhdevstore.store");
         configuration.addAllowedOrigin("https://jyhdevstore.store");
+        configuration.addAllowedOrigin("https://www.team-mole.shop");   // ⭐ 프론트 도메인 추가");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -13,7 +13,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:5173",
                         "https://localhost:5173",
                         "http://jyhdevstore.store",
-                        "https://jyhdevstore.store"
+                        "https://jyhdevstore.store",
+                        "https://www.team-mole.shop"   // ⭐ 프론트 도메인 추가
                 )
                 .allowedMethods("*")
                 .allowedHeaders("*")
