@@ -126,7 +126,8 @@ public class GoalController {
 
     @GetMapping("/unfinished")
     public ResponseEntity<?> getUnfinishedGoals(HttpServletRequest request) {
-        String socialId = extractTokenFromCookie(request);
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
         return ResponseEntity.ok(
                 goalRepository.findBySocialIdAndFinished(socialId, false)
@@ -135,7 +136,8 @@ public class GoalController {
 
     @GetMapping("/need-reflection")
     public ResponseEntity<?> getGoalsNeedingReflection(HttpServletRequest request) {
-        String socialId = extractTokenFromCookie(request);
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
         return ResponseEntity.ok(
                 goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionFalse(socialId)
@@ -144,7 +146,8 @@ public class GoalController {
 
     @GetMapping("/reflected")
     public ResponseEntity<?> getReflectedGoals(HttpServletRequest request) {
-        String socialId = extractTokenFromCookie(request);
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
         return ResponseEntity.ok(
                 goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionTrue(socialId)
