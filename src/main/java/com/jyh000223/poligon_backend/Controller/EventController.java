@@ -16,38 +16,9 @@ import java.util.Map;
 @RequestMapping("/api/events")
 @RequiredArgsConstructor
 public class EventController {
-    private final JwtTokenProvider jwtTokenProvider;
     private final GoalRepository goalRepository;
 
-    @GetMapping("/unfinished")
-    public ResponseEntity<?> getUnfinishedGoals(HttpServletRequest request) {
-        String token = extractTokenFromCookie(request);
-        String socialId = jwtTokenProvider.getSocialId(token);
 
-        return ResponseEntity.ok(
-                goalRepository.findBySocialIdAndFinished(socialId, false)
-        );
-    }
-
-    @GetMapping("/need-reflection")
-    public ResponseEntity<?> getGoalsNeedingReflection(HttpServletRequest request) {
-        String token = extractTokenFromCookie(request);
-        String socialId = jwtTokenProvider.getSocialId(token);
-
-        return ResponseEntity.ok(
-                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionFalse(socialId)
-        );
-    }
-
-    @GetMapping("/reflected")
-    public ResponseEntity<?> getReflectedGoals(HttpServletRequest request) {
-        String token = extractTokenFromCookie(request);
-        String socialId = jwtTokenProvider.getSocialId(token);
-
-        return ResponseEntity.ok(
-                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionTrue(socialId)
-        );
-    }
     @GetMapping("/me")
     public ResponseEntity<?> getEventSummary(HttpServletRequest request) {
         String socialId = extractTokenFromCookie(request);

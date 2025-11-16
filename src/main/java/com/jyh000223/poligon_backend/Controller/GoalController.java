@@ -124,7 +124,35 @@ public class GoalController {
         return ResponseEntity.ok("saved");
     }
 
+    @GetMapping("/unfinished")
+    public ResponseEntity<?> getUnfinishedGoals(HttpServletRequest request) {
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
 
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinished(socialId, false)
+        );
+    }
+
+    @GetMapping("/need-reflection")
+    public ResponseEntity<?> getGoalsNeedingReflection(HttpServletRequest request) {
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionFalse(socialId)
+        );
+    }
+
+    @GetMapping("/reflected")
+    public ResponseEntity<?> getReflectedGoals(HttpServletRequest request) {
+        String token = extractTokenFromCookie(request);
+        String socialId = jwtTokenProvider.getSocialId(token);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndFinishedTrueAndHasReflectionTrue(socialId)
+        );
+    }
     @GetMapping("/category")
     public ResponseEntity<?> getGoalsByCategory(
             @RequestParam String value,
