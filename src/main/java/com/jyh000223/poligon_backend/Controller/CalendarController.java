@@ -1,4 +1,4 @@
-package com.jyh000223.poligon_backend.controller;
+package com.jyh000223.poligon_backend.Controller;
 
 import com.jyh000223.poligon_backend.dto.CalendarResponseDTO;
 import com.jyh000223.poligon_backend.jwt.JwtTokenProvider;
@@ -23,16 +23,16 @@ public class CalendarController {
             HttpServletRequest request
     ) {
         // ⭐ 1. 쿠키에서 JWT 추출
-        String token = getSocialIdFromCookie(request);
+        String token = extractTokenFromCookie(request);
         if (token == null) {
             throw new RuntimeException("인증 토큰이 없습니다.");
         }
 
         // ⭐ 2. JWT 유효성 체크
-        /*
+
         if (!jwtTokenProvider.validateToken(token)) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
-        }*/
+        }
 
         // ⭐ 3. JWT에서 socialId 추출
         String socialId = jwtTokenProvider.getSocialId(token);
@@ -42,12 +42,11 @@ public class CalendarController {
     }
 
     // JWT에서 socialId 추출 메서드
-    private String getSocialIdFromCookie(HttpServletRequest request) {
+    private String extractTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("access_token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-                    return jwtTokenProvider.getSocialId(token);
+                    return cookie.getValue();
                 }
             }
         }

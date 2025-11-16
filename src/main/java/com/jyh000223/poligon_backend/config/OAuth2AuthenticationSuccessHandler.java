@@ -84,8 +84,8 @@
                     .build();
 
             response.setHeader("Set-Cookie", cookie.toString());
-            response.sendRedirect("https://www.team-mole.shop/");
-
+            //response.sendRedirect("https://www.team-mole.shop/");
+            response.sendRedirect("https://localhost:5173/FrontEnd/");
         }
 
     }
