@@ -171,6 +171,14 @@ public class GoalController {
         return ResponseEntity.ok(goals);
     }
 
+    @GetMapping("/delayed")
+    public ResponseEntity<?> getDelayedGoals(HttpServletRequest request) {
+        String socialId = extractTokenFromCookie(request);
+
+        return ResponseEntity.ok(
+                goalRepository.findBySocialIdAndDelayedGoal(socialId, true)
+        );
+    }
 
     private String extractTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {

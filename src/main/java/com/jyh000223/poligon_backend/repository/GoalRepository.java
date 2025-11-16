@@ -16,4 +16,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 
     List<Goal> findBySocialIdAndFinishedTrueAndHasReflectionTrue(String socialId);
 
+    List<Goal> findBySocialIdAndDelayedGoal(String socialId, Boolean delayedGoal);
+
 }
