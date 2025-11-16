@@ -18,4 +18,13 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 
     List<Goal> findBySocialIdAndDelayedGoal(String socialId, Boolean delayedGoal);
 
+    long countBySocialIdAndFinished(String socialId, boolean finished);
+
+    long countBySocialIdAndFinishedTrueAndHasReflectionFalse(String socialId);
+
+    long countBySocialIdAndFinishedTrueAndHasReflectionTrue(String socialId);
+
+    long countBySocialIdAndDelayedGoal(String socialId, boolean delayedGoal);
+
+
 }
